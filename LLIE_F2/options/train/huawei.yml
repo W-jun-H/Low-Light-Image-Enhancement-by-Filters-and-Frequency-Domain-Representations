@@ -1,0 +1,110 @@
+#### general settings
+name: train
+use_tb_logger: false
+model: enhancement_model
+distortion: sr
+scale: 1
+gpu_ids: [0]
+
+#### datasets
+datasets:
+  train:
+    name: ll_dataset
+    interval_list: [1]
+    random_reverse: false
+    border_mode: false
+    dataroot_GT: C:/Users/WeijunHu/Desktop/IDAT7215/Training data/Huawei/high/
+    dataroot_LQ: C:/Users/WeijunHu/Desktop/IDAT7215/Training data/Huawei/low/
+    dataroot_FR: C:/Users/WeijunHu/Desktop/IDAT7215/Training data/Huawei/fr/
+
+    n_workers: 3  # per GPU
+    batch_size: 8
+    GT_size: 256   # size you want to crop out as input sample.
+    LQ_size: 256
+    use_flip: true
+    use_rot: true
+    color: RGB
+  val:
+    name: ll_dataset
+    dataroot_GT: C:/Users/WeijunHu/Desktop/IDAT7215/Eval/Huawei/high/
+    dataroot_LQ: C:/Users/WeijunHu/Desktop/IDAT7215/Eval/Huawei/low/
+    dataroot_FR: C:/Users/WeijunHu/Desktop/IDAT7215/Eval/Huawei/fr/
+    train_size: [600, 400]
+
+#### network structures
+network_G:
+  which_model_G: LLIE_F2
+  latt_nf: 16
+  first_stage_nf: 16
+  second_stage_nf: 16
+  filter:
+    enabled: true
+    coarse:
+      butterworth_lowpass:
+        enabled: true
+        cutoff: 0.25
+        order: 2
+        strength: 1.0
+      tbsif:
+        enabled: true
+        low_cutoff: 0.20
+        high_cutoff: 0.20
+        order: 2
+        lowpass_weight: 1.0
+        highpass_weight: 1.0
+      first_order_iir:
+        enabled: true
+        alpha: 0.85
+        learnable: false
+      optimum_fir:
+        enabled: true
+        kernel_size: 3
+        residual: false
+    texture:
+      fixed_high_order_iir:
+        enabled: true
+        order: 4
+        alpha: 0.85
+      lms_fir:
+        enabled: true
+        kernel_size: 3
+        step_size: 0.01
+      bandpass:
+        enabled: true
+        low_cutoff: 0.10
+        high_cutoff: 0.50
+        order: 2
+        strength: 1.0
+      adaptive:
+        enabled: true
+        hidden_channels: 16
+        strength: 1.0
+        residual: true
+
+#### path
+path:
+  root: ./
+  strict_load: false
+
+#### training settings: learning rate scheme, loss
+train:
+  lr_G: 0.0004
+  lr_scheme: MultiStepLR
+  beta1: 0.9
+  beta2: 0.99
+  niter: 150000
+  lr_steps: [45000, 80000, 110000, 130000]
+  ft_tsa_only: 0
+  warmup_iter: -1  # -1: no warm up
+  lr_gamma: 0.5
+  eta_min: !!float 1e-7
+  pixel_criterion: l1
+  pixel_weight: 1.0
+  val_freq: !!float 1e3
+  manual.resize960x512_seed: 0
+  vgg_loss: false
+
+#### logger
+logger:
+  print_freq: 1000
+  save_checkpoint_freq: !!float 1000

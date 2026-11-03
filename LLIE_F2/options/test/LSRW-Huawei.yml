@@ -1,0 +1,39 @@
+### must be same as
+name: test
+suffix: ~  # add suffix to saved images
+model: ll_dataset
+distortion: sr
+scale: 1
+crop_border: ~  # crop border when evaluation. If None(~), crop the scale pixels
+gpu_ids: [0]
+
+datasets:
+  test:  # the 1st test dataset
+    name: test
+    dataroot_GT: C:/Users/WeijunHu/Desktop/IDAT7215/Eval/Huawei/high/
+    dataroot_LQ: C:/Users/WeijunHu/Desktop/IDAT7215/Eval/Huawei/low/
+    dataroot_FR: C:/Users/WeijunHu/Desktop/IDAT7215/Eval/Huawei/fr/
+
+#### network structures
+network_G:
+  which_model_G: LLIE_F2
+  latt_nf: 16
+  first_stage_nf: 16
+  second_stage_nf: 16
+  filter:
+    enabled: true
+    coarse:
+      butterworth_lowpass: {enabled: true, cutoff: 0.25, order: 2, strength: 1.0}
+      tbsif: {enabled: true, low_cutoff: 0.20, high_cutoff: 0.20, order: 2, lowpass_weight: 1.0, highpass_weight: 1.0}
+      first_order_iir: {enabled: true, alpha: 0.85, learnable: false}
+      optimum_fir: {enabled: true, kernel_size: 3, residual: false}
+    texture:
+      fixed_high_order_iir: {enabled: true, order: 4, alpha: 0.85}
+      lms_fir: {enabled: true, kernel_size: 3, step_size: 0.01}
+      bandpass: {enabled: true, low_cutoff: 0.10, high_cutoff: 0.50, order: 2, strength: 1.0}
+      adaptive: {enabled: true, hidden_channels: 16, strength: 1.0, residual: true}
+
+#### path
+path:
+  root: ./
+  pretrain_model_G: C:/Users/WeijunHu/Desktop/IDAT7215/DMFourLLIE-main/experiments/train/models/latest_G.pth
