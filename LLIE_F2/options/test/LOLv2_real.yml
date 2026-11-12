@@ -10,9 +10,9 @@ gpu_ids: [0]
 datasets:
   test:  # the 1st test dataset
     name: test
-    dataroot_GT: C:/Users/WeijunHu/Desktop/IDAT7215/LOL-v2/LOLv2-Real/Test/normal_rgb/
-    dataroot_LQ: C:/Users/WeijunHu/Desktop/IDAT7215/LOL-v2/LOLv2-Real/Test/low_rgb/
-    dataroot_FR: C:/Users/WeijunHu/Desktop/IDAT7215/LOL-v2/LOLv2-Real/Test/low_fr/
+    dataroot_GT: 
+    dataroot_LQ: 
+    dataroot_FR: 
 
 #### network structures
 network_G:
