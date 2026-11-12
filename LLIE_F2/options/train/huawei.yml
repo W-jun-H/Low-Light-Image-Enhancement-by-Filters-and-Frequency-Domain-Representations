@@ -13,9 +13,9 @@ datasets:
     interval_list: [1]
     random_reverse: false
     border_mode: false
-    dataroot_GT: C:/Users/WeijunHu/Desktop/IDAT7215/Training data/Huawei/high/
-    dataroot_LQ: C:/Users/WeijunHu/Desktop/IDAT7215/Training data/Huawei/low/
-    dataroot_FR: C:/Users/WeijunHu/Desktop/IDAT7215/Training data/Huawei/fr/
+    dataroot_GT: 
+    dataroot_LQ: 
+    dataroot_FR: 
 
     n_workers: 3  # per GPU
     batch_size: 8
@@ -26,9 +26,9 @@ datasets:
     color: RGB
   val:
     name: ll_dataset
-    dataroot_GT: C:/Users/WeijunHu/Desktop/IDAT7215/Eval/Huawei/high/
-    dataroot_LQ: C:/Users/WeijunHu/Desktop/IDAT7215/Eval/Huawei/low/
-    dataroot_FR: C:/Users/WeijunHu/Desktop/IDAT7215/Eval/Huawei/fr/
+    dataroot_GT: 
+    dataroot_LQ: 
+    dataroot_FR: 
     train_size: [600, 400]
 
 #### network structures
